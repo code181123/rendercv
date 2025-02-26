@@ -9,37 +9,21 @@ import re
 from datetime import date as Date
 from typing import Optional
 
-import phonenumbers
 
 from .curriculum_vitae import curriculum_vitae
 from .locale import locale
 
 
 def format_phone_number(phone_number: str) -> str:
-    """Format a phone number to the format specified in the `locale` dictionary.
-
-    Example:
-        ```python
-        format_phone_number("+17034800500")
-        ```
-        returns
-        ```python
-        "(703) 480-0500"
-        ```
-
+    """Return the phone number as-is without any formatting.
+    
     Args:
-        phone_number: The phone number to format.
-
+        phone_number: The phone number string.
+    
     Returns:
-        The formatted phone number.
+        The same phone number string unchanged.
     """
-
-    format = locale["phone_number_format"].upper()  # type: ignore
-
-    parsed_number = phonenumbers.parse(phone_number, None)
-    return phonenumbers.format_number(
-        parsed_number, getattr(phonenumbers.PhoneNumberFormat, format)
-    )
+    return phone_number
 
 
 def get_date_input() -> Date:
