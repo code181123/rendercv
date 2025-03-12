@@ -16,30 +16,13 @@ from .locale import locale
 
 
 def format_phone_number(phone_number: str) -> str:
-    """Format a phone number to the format specified in the `locale` dictionary.
-
-    Example:
-        ```python
-        format_phone_number("+17034800500")
-        ```
-        returns
-        ```python
-        "(703) 480-0500"
-        ```
-
-    Args:
-        phone_number: The phone number to format.
-
-    Returns:
-        The formatted phone number.
-    """
-
-    format = locale["phone_number_format"].upper()  # type: ignore
-
-    parsed_number = phonenumbers.parse(phone_number, None)
-    return phonenumbers.format_number(
-        parsed_number, getattr(phonenumbers.PhoneNumberFormat, format)
-    )
+    """Format a phone number by removing the country code and formatting it for global consistency."""
+    try:
+        parsed_number = phonenumbers.parse(phone_number, None)
+        national_number = str(parsed_number.national_number)  # Extracts only the national number
+        return national_number
+    except phonenumbers.phonenumberutil.NumberParseException:
+        return "Invalid phone number"
 
 
 def get_date_input() -> Date:
